@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">    <link rel="stylesheet" href="<?php echo e(asset('css/app.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/app.css')); ?>">
   <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css','resources/js/app.js']); ?>
-
 </head>
 <body>
     
@@ -18,25 +18,59 @@
         <div class="container">
             <img src="<?php echo e(asset('images/logo.png')); ?>" alt="Logo" width="70" height="70" class="d-inline-block align-text-top">
             <a class="navbar-brand" href="/">EcoRecolect</a>
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a href="/" class="nav-link">Inicio</a></li>
-                <li class="nav-item"><a href="/nosotros" class="nav-link">Nosotros</a></li>
-                <li class="nav-item"><a href="/planes" class="nav-link">Planes</a></li>
-                <li class="nav-item"><a href="/contacto" class="nav-link">Contacto</a></li>
-                 <?php if(auth()->guard()->check()): ?>
-          <?php if(auth()->user()->user_type === 'admin'): ?>
-            <li class="nav-item"><a href="<?php echo e(route('admin.dashboard')); ?>" class="nav-link">Admin</a></li>
-          <?php endif; ?>
-          <li class="nav-item">
-            <form method="POST" action="<?php echo e(route('logout')); ?>">
-              <?php echo csrf_field(); ?>
-              <button class="btn btn-link nav-link p-0">Cerrar sesión</button>
-            </form>
-          </li>
-          <?php else: ?>
-          <li class="nav-item"><a href="<?php echo e(route('login')); ?>" class="nav-link">Iniciar sesión</a></li>
-          
-        <?php endif; ?>
+            <ul class="hidden md:flex items-center gap-1 ms-auto">
+              <li>
+                <a href="<?php echo e(url('/')); ?>"
+                   class="nav-link <?php echo e(request()->is('/') ? 'nav-link-active' : ''); ?>">
+                  Inicio
+                </a>
+              </li>
+              <li>
+                <a href="<?php echo e(url('/nosotros')); ?>"
+                   class="nav-link <?php echo e(request()->is('nosotros') ? 'nav-link-active' : ''); ?>">
+                  Nosotros
+                </a>
+              </li>
+              <li>
+                <a href="<?php echo e(url('/planes')); ?>"
+                   class="nav-link <?php echo e(request()->is('planes') ? 'nav-link-active' : ''); ?>">
+                  Planes
+                </a>
+              </li>
+              <li>
+                <a href="<?php echo e(url('/contacto')); ?>"
+                   class="nav-link <?php echo e(request()->is('contacto') ? 'nav-link-active' : ''); ?>">
+                  Contacto
+                </a>
+              </li>
+
+              <?php if(auth()->guard()->check()): ?>
+                <?php
+                  $user = auth()->user();
+                  $isAdmin = $user->user_type === 'admin';
+                  $panelRoute = $isAdmin ? route('admin.dashboard') : route('user.dashboard');
+                  $panelActive = $isAdmin ? request()->is('admin*') : request()->is('panel*');
+                ?>
+
+                <li>
+                  <a href="<?php echo e($panelRoute); ?>"
+                     title="Ir a tu panel"
+                     class="nav-link <?php echo e($panelActive ? 'nav-link-active' : ''); ?>">
+                    Panel (Dashboard)
+                  </a>
+                </li>
+
+                <li>
+                  <form method="POST" action="<?php echo e(route('logout')); ?>" class="m-0">
+                    <?php echo csrf_field(); ?>
+                    <button class="nav-cta" type="submit">Cerrar sesión</button>
+                  </form>
+                </li>
+              <?php else: ?>
+                <li>
+                  <a href="<?php echo e(route('login')); ?>" class="nav-cta nav-cta--primary">Ingresar</a>
+                </li>
+              <?php endif; ?>
             </ul>
         </div>
     </nav>
@@ -95,4 +129,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
-</html><?php /**PATH /Users/carlo/Desktop/Programming Path 2025/Full-Stack Folder/EcoRecolect/EcoRecolect_2025/resources/views/layouts/app.blade.php ENDPATH**/ ?>
+</html>
+<?php /**PATH /Users/carlo/Desktop/Programming Path 2025/Full-Stack Folder/EcoRecolect/EcoRecolect_2025/resources/views/layouts/app.blade.php ENDPATH**/ ?>
