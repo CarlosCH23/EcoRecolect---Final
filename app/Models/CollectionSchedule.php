@@ -86,4 +86,3 @@ class CollectionSchedule extends Model
         return (int) max($min, $base + $bonus);
     }
 }
-

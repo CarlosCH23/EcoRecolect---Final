@@ -72,3 +72,4 @@
   .nav-cta--primary { /* si quieres un CTA verde para 'Ingresar' */
     @apply bg-brand border-brand text-white hover:bg-brand-600;
   }
+

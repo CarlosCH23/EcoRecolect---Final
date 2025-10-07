@@ -53,4 +53,3 @@ class AdminUserController extends Controller
         return back()->with('success', "Usuario {$userName} eliminado correctamente.");
     }
 }
-

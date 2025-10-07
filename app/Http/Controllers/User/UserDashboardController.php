@@ -120,10 +120,10 @@ class UserDashboardController extends Controller
         }
 
         $rows = $query->orderBy('scheduled_for')->cursor();
-        $filename = sprintf('recolecciones_%s-%s.csv', $start->format('Ymd'), $end->format('Ymd'));
+
         $headers = [
             'Content-Type'        => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
+            'Content-Disposition' => 'attachment; filename="recolecciones_'.$start->format('Ymd').'-'.$end->format('Ymd').'.csv"',
         ];
 
         return response()->stream(function () use ($rows) {

@@ -67,4 +67,3 @@ class CollectionScheduleController extends Controller
         return back()->with('success', 'Recolección eliminada correctamente.');
     }
 }
-

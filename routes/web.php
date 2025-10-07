@@ -84,13 +84,7 @@ Route::middleware(['auth','verified'])->group(function () {
 
 });
 
-// Logout rápido (opcional en dev)
-Route::get('/dev-logout', function () {
-    Auth::logout();
-    request()->session()->invalidate();
-    request()->session()->regenerateToken();
-    return redirect('/');
-});
+
 
 // Rutas de login/registro/reset
 require __DIR__.'/auth.php';

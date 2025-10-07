@@ -60,7 +60,7 @@ class ReportController extends Controller
                 }
             });
 
-        fclose($handle);
+            fclose($handle);
         };
 
         return response()->streamDownload($callback, $filename, [
@@ -256,4 +256,3 @@ class ReportController extends Controller
         ]);
     }
 }
-

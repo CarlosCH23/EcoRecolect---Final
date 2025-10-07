@@ -156,4 +156,3 @@ class PickupController extends Controller
             ->with('success', 'Recolección programada correctamente.');
     }
 }
-

@@ -9,4 +9,3 @@ class HomeController extends Controller
     public function planes()   { return view('home.planes'); }
     public function contacto() { return view('home.contacto'); }
 }
-
