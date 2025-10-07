@@ -10,28 +10,78 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
-
+  @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 <body>
     {{-- Navbar --}}
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <img src="{{ asset('img/logo.png') }}" alt="Logo" width="70" height="70" class="d-inline-block align-text-top">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" width="70" height="70" class="d-inline-block align-text-top">
             <a class="navbar-brand" href="/">EcoRecolect</a>
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a href="/" class="nav-link">Inicio</a></li>
-                <li class="nav-item"><a href="/nosotros" class="nav-link">Nosotros</a></li>
-                <li class="nav-item"><a href="/planes" class="nav-link">Planes</a></li>
-                <li class="nav-item"><a href="/contacto" class="nav-link">Contacto</a></li>
+            <ul class="hidden md:flex items-center gap-1 ms-auto">
+              <li>
+                <a href="{{ url('/') }}"
+                   class="nav-link {{ request()->is('/') ? 'nav-link-active' : '' }}">
+                  Inicio
+                </a>
+              </li>
+              <li>
+                <a href="{{ url('/nosotros') }}"
+                   class="nav-link {{ request()->is('nosotros') ? 'nav-link-active' : '' }}">
+                  Nosotros
+                </a>
+              </li>
+              <li>
+                <a href="{{ url('/planes') }}"
+                   class="nav-link {{ request()->is('planes') ? 'nav-link-active' : '' }}">
+                  Planes
+                </a>
+              </li>
+              <li>
+                <a href="{{ url('/contacto') }}"
+                   class="nav-link {{ request()->is('contacto') ? 'nav-link-active' : '' }}">
+                  Contacto
+                </a>
+              </li>
+
+              @auth
+                @php
+                  $user = auth()->user();
+                  $isAdmin = $user->user_type === 'admin';
+                  $panelRoute = $isAdmin ? route('admin.dashboard') : route('user.dashboard');
+                  $panelActive = $isAdmin ? request()->is('admin*') : request()->is('panel*');
+                @endphp
+
+                <li>
+                  <a href="{{ $panelRoute }}"
+                     title="Ir a tu panel"
+                     class="nav-link {{ $panelActive ? 'nav-link-active' : '' }}">
+                    Panel (Dashboard)
+                  </a>
+                </li>
+
+                <li>
+                  <form method="POST" action="{{ route('logout') }}" class="m-0">
+                    @csrf
+                    <button class="nav-cta" type="submit">Cerrar sesión</button>
+                  </form>
+                </li>
+              @else
+                <li>
+                  <a href="{{ route('login') }}" class="nav-cta nav-cta--primary">Ingresar</a>
+                </li>
+              @endauth
             </ul>
         </div>
     </nav>
 
-    {{-- Aquí se inyectan las vistas --}}
-    <div class="container-fluid p-0">
-        @yield('content')
-    </div>
+   <main class="container-fluid p-0">
+  @if (isset($slot))
+    {{ $slot }}             {{-- funciona cuando usas <x-app-layout> --}}
+  @else
+    @yield('content')       {{-- funciona cuando usas @extends('layouts.app') --}}
+  @endif
+</main>
 
     {{-- Footer --}}
     <footer class="bg-success text-white text-center py-4 mt-5">
