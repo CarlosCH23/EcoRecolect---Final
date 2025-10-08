@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\ReportController;
 use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Http\Controllers\User\UserDashboardController;
 use App\Http\Controllers\User\PickupController;
+use App\Http\Controllers\Company\EmpresaDashboardController;
 
 // Públicas
 Route::get('/',           [HomeController::class, 'landing'])->name('home');
@@ -84,7 +85,11 @@ Route::middleware(['auth','verified'])->group(function () {
 
 });
 
+// Rutas para empresas de recolección
 
+Route::get('/company/dashboard', [EmpresaDashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('company.dashboard');
 
 // Rutas de login/registro/reset
 require __DIR__.'/auth.php';

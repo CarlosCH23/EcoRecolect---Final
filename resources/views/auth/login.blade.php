@@ -21,7 +21,9 @@
                 <div class="w-full max-w-2xl bg-white rounded-2xl shadow-[0_15px_30px_rgba(0,0,0,0.15)] p-6 sm:p-10">
                     <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-center leading-tight">Iniciar Sesión</h1>
                     <p class="text-center text-gray-500 mt-1 mb-8">Ingresa tus credenciales para acceder</p>
-
+                    <!-- Session Status --> 
+                    <x-auth-session-status :status="session('status')" />
+                    <!-- Validation Errors -->
                     @if ($errors->any())
                         <div class="mb-6 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
                             <ul class="list-disc pl-5">
